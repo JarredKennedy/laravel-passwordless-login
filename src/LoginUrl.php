@@ -45,18 +45,20 @@ class LoginUrl
         $this->redirect_url = $redirectUrl;
     }
 
-    public function generate()
+    public function generate($parameters = [])
     {
         $idField = $this->user->getKeyName() ?? 'id';
+
+        $parameters = array_merge($parameters, [
+            'uid'           => $this->user->$idField,
+            'redirect_to'   => $this->redirect_url,
+            'user_type'     => UserClass::toSlug(get_class($this->user)),
+        ]);
 
         return URL::temporarySignedRoute(
             $this->route_name,
             $this->route_expires,
-            [
-                'uid'           => $this->user->$idField,
-                'redirect_to'   => $this->redirect_url,
-                'user_type'     => UserClass::toSlug(get_class($this->user)),
-            ]
+            $parameters
         );
     }
 }

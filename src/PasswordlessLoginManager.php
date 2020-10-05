@@ -47,10 +47,12 @@ class PasswordlessLoginManager
     /**
      * This generates the URL.
      *
+     * @param array $parameters
+     * 
      * @return string signed login url
      */
-    public function generate()
+    public function generate($parameters = [])
     {
-        return $this->loginUrl->generate();
+        return $this->loginUrl->generate($parameters);
     }
 }
